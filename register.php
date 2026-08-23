@@ -65,8 +65,12 @@ require APP_ROOT . '/includes/header.php';
         </div>
         <div><label class="label">Email address</label><input class="input" name="email" type="email" required
                 autocomplete="email"></div>
-        <div><label class="label" for="register-password">Password</label><div class="relative"><input class="input pr-12" id="register-password" name="password" type="password" minlength="8"
-                required autocomplete="new-password"><button class="absolute inset-y-0 right-0 grid w-12 place-items-center text-zinc-500 hover:text-black" type="button" data-password-toggle="register-password" aria-label="Show password"><span class="material-symbols-outlined text-lg">visibility</span></button></div>
+        <div><label class="label" for="register-password">Password</label>
+            <div class="relative"><input class="input pr-12" id="register-password" name="password" type="password"
+                    minlength="8" required autocomplete="new-password"><button
+                    class="absolute inset-y-0 right-0 grid w-12 place-items-center text-zinc-500 hover:text-black"
+                    type="button" data-password-toggle="register-password" aria-label="Show password"><span
+                        class="material-symbols-outlined text-lg">visibility</span></button></div>
             <p class="mt-2 text-[11px] text-zinc-500">Use at least 8 characters.</p>
         </div><button class="button button-primary w-full" type="submit">Create account</button>
     </form>

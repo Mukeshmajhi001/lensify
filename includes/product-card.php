@@ -14,7 +14,8 @@ $wishlisted = is_wishlisted((int) $product['id']);
             <?php if (!empty($product['badge'])): ?><span
                     class="badge <?= $product['badge'] === 'SALE' ? 'bg-green-600 text-white' : ($product['badge'] === 'BESTSELLER' ? 'border border-amber-600 bg-white text-amber-700' : 'bg-black text-white') ?>"><?= h($product['badge']) ?></span><?php endif; ?>
         </div>
-        <form class="pointer-events-auto absolute right-3 top-3 z-10" method="post" action="<?= h(url('wishlist.php')) ?>">
+        <form class="pointer-events-auto absolute right-3 top-3 z-10" method="post"
+            action="<?= h(url('wishlist.php')) ?>">
             <?= csrf_field() ?>
             <input type="hidden" name="action" value="toggle_wishlist">
             <input type="hidden" name="product_id" value="<?= (int) $product['id'] ?>">

@@ -1,5 +1,7 @@
 <?php
-require_once __DIR__ . '/app/bootstrap.php'; $pageTitle = 'Terms & conditions'; require APP_ROOT . '/includes/header.php';
+require_once __DIR__ . '/app/bootstrap.php';
+$pageTitle = 'Terms & conditions';
+require APP_ROOT . '/includes/header.php';
 ?>
 <article class="prose-lensify mx-auto max-w-3xl px-5 py-14">
     <p class="label">Legal</p>

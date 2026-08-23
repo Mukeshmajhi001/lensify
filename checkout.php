@@ -122,9 +122,11 @@ require APP_ROOT . '/includes/header.php';
                 <p class="mt-4 text-xs text-zinc-500">We currently deliver throughout Nepal.</p>
             </section>
             <section class="rounded-xl border border-zinc-200 bg-white p-5 sm:p-7">
-                <h2 class="text-xl font-bold">Order note <span class="text-sm font-normal text-zinc-500">(optional)</span></h2>
+                <h2 class="text-xl font-bold">Order note <span
+                        class="text-sm font-normal text-zinc-500">(optional)</span></h2>
                 <p class="mt-2 text-sm text-zinc-500">Add any special instruction for your order.</p>
-                <textarea class="input mt-5 min-h-28" name="customer_message" maxlength="1000" placeholder="e.g. Please send the +2 prescription or blue colour."></textarea>
+                <textarea class="input mt-5 min-h-28" name="customer_message" maxlength="1000"
+                    placeholder="e.g. Please send the +2 prescription or blue colour."></textarea>
             </section>
             <section class="rounded-xl border border-zinc-200 bg-white p-5 sm:p-7">
                 <h2 class="text-xl font-bold">Payment method</h2>
@@ -153,9 +155,18 @@ require APP_ROOT . '/includes/header.php';
         <aside class="h-fit rounded-xl bg-mist p-6">
             <h2 class="text-lg font-bold">Order summary</h2>
             <form class="mt-5 flex gap-2" method="post">
-                <?= csrf_field() ?><input type="hidden" name="action" value="apply_coupon"><input type="hidden" name="return_to" value="checkout.php"><input class="input min-w-0 py-2 text-sm" name="coupon_code" placeholder="Coupon / promo code" aria-label="Coupon code"><button class="button button-secondary shrink-0 px-4" type="submit">Apply</button>
+                <?= csrf_field() ?><input type="hidden" name="action" value="apply_coupon"><input type="hidden"
+                    name="return_to" value="checkout.php"><input class="input min-w-0 py-2 text-sm" name="coupon_code"
+                    placeholder="Coupon / promo code" aria-label="Coupon code"><button
+                    class="button button-secondary shrink-0 px-4" type="submit">Apply</button>
             </form>
-            <?php if ($coupon): ?><div class="mt-3 flex items-center justify-between rounded-lg bg-green-100 px-3 py-2 text-xs text-green-800"><span><strong><?= h($coupon['code']) ?></strong> applied</span><form method="post"><?= csrf_field() ?><input type="hidden" name="action" value="remove_coupon"><input type="hidden" name="return_to" value="checkout.php"><button class="font-bold underline" type="submit">Remove</button></form></div><?php endif; ?>
+            <?php if ($coupon): ?><div
+                    class="mt-3 flex items-center justify-between rounded-lg bg-green-100 px-3 py-2 text-xs text-green-800">
+                    <span><strong><?= h($coupon['code']) ?></strong> applied</span>
+                    <form method="post"><?= csrf_field() ?><input type="hidden" name="action" value="remove_coupon"><input
+                            type="hidden" name="return_to" value="checkout.php"><button class="font-bold underline"
+                            type="submit">Remove</button></form>
+                </div><?php endif; ?>
             <div class="mt-5 divide-y divide-zinc-300"><?php foreach ($items as $item): ?><div class="flex gap-3 py-3">
                         <img class="h-14 w-14 rounded-lg object-cover"
                             src="<?= h(display_image_url($item['image_url'] ?? null)) ?>" alt="">
@@ -172,7 +183,8 @@ require APP_ROOT . '/includes/header.php';
                 <?php if ($coupon): ?><div class="flex justify-between text-green-700"><span>Coupon
                             <?= h($coupon['code']) ?></span><span>−<?= money(cart_discount()) ?></span></div><?php endif; ?>
                 <div class="flex justify-between"><span class="text-zinc-600">Shipping</span><span
-                        class="<?= cart_shipping() > 0 ? 'text-zinc-900' : 'text-green-700' ?>"><?= cart_shipping() > 0 ? money(cart_shipping()) : 'Free' ?></span></div>
+                        class="<?= cart_shipping() > 0 ? 'text-zinc-900' : 'text-green-700' ?>"><?= cart_shipping() > 0 ? money(cart_shipping()) : 'Free' ?></span>
+                </div>
                 <div class="flex justify-between pt-2 text-base font-bold">
                     <span>Total</span><span><?= money(cart_total()) ?></span>
                 </div>

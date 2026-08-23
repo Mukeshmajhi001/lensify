@@ -45,9 +45,13 @@ require APP_ROOT . '/includes/header.php';
         <form class="mt-8 space-y-5" method="post"><?= csrf_field() ?><input type="hidden" name="action" value="login">
             <div><label class="label">Email address</label><input class="input" type="email" name="email" required
                     autocomplete="email"></div>
-            <div><label class="label" for="login-password">Password</label><div class="relative"><input class="input pr-12" id="login-password" type="password" name="password" required
-                    autocomplete="current-password"><button class="absolute inset-y-0 right-0 grid w-12 place-items-center text-zinc-500 hover:text-black" type="button" data-password-toggle="login-password" aria-label="Show password"><span class="material-symbols-outlined text-lg">visibility</span></button></div></div><button class="button button-primary w-full"
-                type="submit">Sign in</button>
+            <div><label class="label" for="login-password">Password</label>
+                <div class="relative"><input class="input pr-12" id="login-password" type="password" name="password"
+                        required autocomplete="current-password"><button
+                        class="absolute inset-y-0 right-0 grid w-12 place-items-center text-zinc-500 hover:text-black"
+                        type="button" data-password-toggle="login-password" aria-label="Show password"><span
+                            class="material-symbols-outlined text-lg">visibility</span></button></div>
+            </div><button class="button button-primary w-full" type="submit">Sign in</button>
         </form>
 
     </div>

@@ -123,7 +123,11 @@ require APP_ROOT . '/includes/admin-header.php';
                     </p>
                 </div>
             </div>
-            <?php if (trim((string) ($order['customer_message'] ?? '')) !== ''): ?><div class="mt-6 rounded-xl bg-amber-50 p-4"><span class="label text-amber-800">Customer message</span><p class="mt-2 whitespace-pre-line text-sm leading-6 text-amber-950"><?= h($order['customer_message']) ?></p></div><?php endif; ?>
+            <?php if (trim((string) ($order['customer_message'] ?? '')) !== ''): ?><div
+                    class="mt-6 rounded-xl bg-amber-50 p-4"><span class="label text-amber-800">Customer message</span>
+                    <p class="mt-2 whitespace-pre-line text-sm leading-6 text-amber-950">
+                        <?= h($order['customer_message']) ?></p>
+                </div><?php endif; ?>
         </section><?php if ($order['order_status'] === 'cancelled'): ?><section
                 class="rounded-2xl border border-red-200 bg-red-50 p-6">
                 <h2 class="font-bold text-red-900">Cancellation details</h2>
