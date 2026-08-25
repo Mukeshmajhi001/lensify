@@ -45,10 +45,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'place
             $orderId = (int) db()->lastInsertId();
             $itemStatement = db()->prepare('INSERT INTO order_items (order_id, product_id, variant_id, product_name, product_image_url, variant_name, sku, variant_sku, lens_type, quantity, unit_price, line_total) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
             foreach ($items as $item) {
+                // The cart lives in the session, so its stock snapshot may be
+                // stale by checkout time. Lock and re-check both stock pools
+                // inside the order transaction before creating any order rows.
+                $productStockStatement = db()->prepare('SELECT stock_quantity FROM products WHERE id = ? FOR UPDATE');
+                $productStockStatement->execute([(int) $item['id']]);
+                $productStock = $productStockStatement->fetchColumn();
+                if ($productStock === false || (int) $productStock < (int) $item['quantity']) {
+                    throw new DomainException('One or more frames in your bag no longer have enough stock. Please update your bag and try again.');
+                }
+                if (!empty($item['variant_id'])) {
+                    $variantStockStatement = db()->prepare('SELECT stock_quantity FROM product_variants WHERE id = ? AND product_id = ? AND is_active = 1 FOR UPDATE');
+                    $variantStockStatement->execute([(int) $item['variant_id'], (int) $item['id']]);
+                    $variantStock = $variantStockStatement->fetchColumn();
+                    if ($variantStock === false || (int) $variantStock < (int) $item['quantity']) {
+                        throw new DomainException('One or more frame options in your bag no longer have enough stock. Please update your bag and try again.');
+                    }
+                }
                 $itemStatement->execute([$orderId, $item['id'], $item['variant_id'], $item['name'], $item['image_url'] ?? null, $item['variant_name'], $item['sku'] ?? ('LNS-' . $item['id']), $item['variant_sku'], $item['lens_type'], $item['quantity'], $item['unit_price'], $item['line_total']]);
-                db()->prepare('UPDATE products SET stock_quantity = GREATEST(stock_quantity - ?, 0) WHERE id = ?')->execute([$item['quantity'], $item['id']]);
+                db()->prepare('UPDATE products SET stock_quantity = stock_quantity - ? WHERE id = ?')->execute([$item['quantity'], $item['id']]);
                 if ($item['variant_id']) {
-                    db()->prepare('UPDATE product_variants SET stock_quantity = GREATEST(stock_quantity - ?, 0) WHERE id = ?')->execute([$item['quantity'], $item['variant_id']]);
+                    db()->prepare('UPDATE product_variants SET stock_quantity = stock_quantity - ? WHERE id = ?')->execute([$item['quantity'], $item['variant_id']]);
                 }
             }
             if ($coupon) {
@@ -64,6 +81,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'place
             unset($_SESSION['coupon_code']);
             $_SESSION['last_order_number'] = $orderNumber;
             redirect('order-confirmed.php?number=' . rawurlencode($orderNumber));
+        } catch (DomainException $exception) {
+            if (db()->inTransaction()) {
+                db()->rollBack();
+            }
+            flash('error', $exception->getMessage());
         } catch (Throwable) {
             if (db()->inTransaction()) {
                 db()->rollBack();
