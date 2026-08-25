@@ -1,134 +1,336 @@
+/* ==========================================================================
+   Lensify — app.css
+   Premium minimal: ink on paper, hairline rules, generous air.
+   Every class name from the original file is kept — only the values changed.
+   ========================================================================== */
+
+:root {
+  color-scheme: light;
+
+  /* Ink scale */
+  --ink: #151c27;
+  --ink-700: #3d4453;
+  --ink-600: #565d6b;
+  --ink-500: #6d7480;
+  --ink-400: #9ba1ac;
+  --ink-300: #c3c7cf;
+
+  /* Surfaces */
+  --paper: #f9f9ff;
+  --mist: #f0f3ff;
+  --surface: #ffffff;
+  --sunken: #f3f4fa;
+
+  /* Rules */
+  --line: #e5e7eb;
+  --line-strong: #d3d7e0;
+
+  /* Status */
+  --success: #006e2d;
+  --star: #d97706;
+
+  /* Motion — one shared easing keeps every transition feeling related */
+  --ease: cubic-bezier(0.32, 0.72, 0, 1);
+  --fast: 0.16s;
+  --base: 0.26s;
+  --slow: 0.5s;
+
+  /* Elevation — two soft layers, never a hard drop shadow */
+  --shadow-soft:
+    0 1px 2px rgba(21, 28, 39, 0.04), 0 6px 20px -10px rgba(21, 28, 39, 0.1);
+  --shadow-lift:
+    0 2px 4px rgba(21, 28, 39, 0.04), 0 18px 38px -20px rgba(21, 28, 39, 0.26);
+
+  --radius-lg: 0.875rem;
+  --radius: 0.75rem;
+  --radius-sm: 0.5rem;
+}
+
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  scrollbar-gutter: stable;
 }
+
 body {
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-wrap: break-word;
 }
+
 ::selection {
   background: #151c27;
   color: white;
 }
+
+/* Quality floor: one visible, consistent keyboard ring everywhere.
+   :where() carries zero specificity, so it never fights a component rule. */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+:where(a, button, [role="button"]) {
+  -webkit-tap-highlight-color: transparent;
+}
+
+img,
+svg,
+video {
+  max-width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   Header navigation
+   The signature move: an underline that grows from the centre of the label.
+   -------------------------------------------------------------------------- */
+
 .nav-link {
-  border-bottom: 2px solid transparent;
-  padding: 0.25rem 0;
-  color: #71717a;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 0.7rem;
+  border-radius: var(--radius-sm);
+  color: var(--ink-500);
   font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.085em;
   text-transform: uppercase;
+  white-space: nowrap;
   transition:
-    color 0.18s,
-    border-color 0.18s;
+    color var(--base) var(--ease),
+    background-color var(--base) var(--ease);
 }
-.nav-link:hover,
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  right: 0.7rem;
+  bottom: 0.22rem;
+  left: 0.7rem;
+  height: 1.5px;
+  border-radius: 2px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform var(--base) var(--ease);
+}
+
+.nav-link:hover {
+  color: var(--ink);
+}
+
 .nav-link-active {
-  border-color: #18181b;
-  color: #18181b;
+  color: var(--ink);
+  font-weight: 700;
 }
+
+.nav-link:hover::after,
+.nav-link-active::after {
+  transform: scaleX(1);
+}
+
 .icon-button {
+  position: relative;
   display: inline-grid;
-  height: 2.25rem;
-  width: 2.25rem;
+  height: 2.5rem;
+  width: 2.5rem;
   place-items: center;
+  /* The search button also carries `md:inline-flex`, which wins over
+     inline-grid — justify-content keeps the glyph centred in that case too. */
+  justify-content: center;
   border-radius: 999px;
-  color: #18181b;
-  transition: background-color 0.18s;
+  color: var(--ink);
+  transition:
+    background-color var(--fast) var(--ease),
+    transform var(--fast) var(--ease);
 }
+
 .icon-button:hover {
-  background: #f4f4f5;
+  background: var(--mist);
 }
+
+.icon-button:active {
+  transform: scale(0.93);
+}
+
 .icon-button .material-symbols-outlined {
   font-size: 21px;
   font-variation-settings: "wght" 300;
 }
+
 .profile-nav-button {
   display: inline-flex;
-  height: 2.4rem;
-  min-width: 2.4rem;
+  height: 2.5rem;
+  min-width: 2.5rem;
   align-items: center;
-  gap: 0.45rem;
+  gap: 0.5rem;
   overflow: hidden;
-  border: 1px solid #e4e4e7;
+  border: 1px solid var(--line);
   border-radius: 999px;
-  background: #fff;
-  padding: 0.12rem 0.55rem 0.12rem 0.12rem;
-  color: #18181b;
+  background: var(--surface);
+  padding: 0.1875rem;
+  color: var(--ink);
   transition:
-    border-color 0.18s,
-    background-color 0.18s;
+    border-color var(--fast) var(--ease),
+    box-shadow var(--fast) var(--ease),
+    transform var(--fast) var(--ease);
 }
+
 .profile-nav-button:hover {
-  border-color: #18181b;
-  background: #fafafa;
+  border-color: var(--ink);
+  box-shadow: var(--shadow-soft);
 }
+
+.profile-nav-button:active {
+  transform: scale(0.97);
+}
+
+/* Perfect circle until the name label appears at xl, then it becomes a pill. */
+@media (min-width: 1280px) {
+  .profile-nav-button {
+    padding-right: 0.85rem;
+  }
+}
+
 .profile-nav-button > span:first-child:not(.material-symbols-outlined) {
   display: grid;
-  height: 2rem;
-  width: 2rem;
+  height: 2.125rem;
+  width: 2.125rem;
   place-items: center;
   flex: none;
   border-radius: 999px;
-  background: #18181b;
+  background: var(--ink);
   color: #fff;
   font-size: 10px;
   font-weight: 700;
+  letter-spacing: 0.02em;
 }
+
 .profile-nav-button > img {
-  height: 2rem;
-  width: 2rem;
+  height: 2.125rem;
+  width: 2.125rem;
   flex: none;
   border-radius: 999px;
   object-fit: cover;
+  background: var(--sunken);
 }
+
 .profile-nav-button > .material-symbols-outlined {
   display: grid;
-  height: 2rem;
-  width: 2rem;
+  height: 2.125rem;
+  width: 2.125rem;
   place-items: center;
+  flex: none;
   border-radius: 999px;
-  background: #f4f4f5;
+  background: var(--mist);
   font-size: 19px;
   font-variation-settings: "wght" 300;
 }
+
 .mobile-nav-link {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border: 1px solid #e4e4e7;
-  border-radius: 0.65rem;
-  padding: 0.85rem 1rem;
-  color: #3f3f46;
+  gap: 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: 0.9rem 1rem;
+  color: var(--ink-700);
   font-size: 13px;
   font-weight: 700;
+  letter-spacing: 0.01em;
   transition:
-    color 0.18s,
-    border-color 0.18s,
-    background-color 0.18s;
+    color var(--base) var(--ease),
+    border-color var(--base) var(--ease),
+    background-color var(--base) var(--ease),
+    transform var(--fast) var(--ease);
 }
-.mobile-nav-link:hover,
-.mobile-nav-link-active {
-  border-color: #18181b;
-  background: #18181b;
-  color: #fff;
-}
+
 .mobile-nav-link .material-symbols-outlined {
   font-size: 18px;
+  color: var(--ink-400);
+  transition:
+    transform var(--base) var(--ease),
+    color var(--base) var(--ease);
 }
+
+.mobile-nav-link:hover,
+.mobile-nav-link-active {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: #fff;
+}
+
+.mobile-nav-link:hover .material-symbols-outlined,
+.mobile-nav-link-active .material-symbols-outlined {
+  color: #fff;
+  transform: translateX(3px);
+}
+
+.mobile-nav-link:active {
+  transform: scale(0.985);
+}
+
+/* Mobile drawer reveal — JS only toggles `hidden`, so animate on visibility. */
+nav[data-menu]:not(.hidden) {
+  animation: menu-in var(--base) var(--ease) both;
+}
+
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Flash toast — enters from the side it is docked to. */
+[data-flash] {
+  animation: flash-in 0.42s var(--ease) both;
+}
+
+@keyframes flash-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Cards
+   -------------------------------------------------------------------------- */
+
 .category-card {
   display: block;
   min-width: 0;
-  border-radius: 0.75rem;
-  background: #fff;
-  padding: 1.25rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  padding: 1.375rem 1.25rem;
   text-align: center;
   transition:
-    transform 0.18s,
-    box-shadow 0.18s;
+    transform var(--base) var(--ease),
+    box-shadow var(--base) var(--ease),
+    border-color var(--base) var(--ease);
 }
+
 .category-card:hover {
-  transform: translateY(-0.25rem);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  transform: translateY(-0.3rem);
+  border-color: var(--line);
+  box-shadow: var(--shadow-lift);
 }
+
 .category-card-icon {
   display: grid;
   height: 2.75rem;
@@ -136,205 +338,341 @@ body {
   margin: 0 auto;
   place-items: center;
   border-radius: 999px;
-  background: #f4f4f5;
-  color: #18181b;
+  background: var(--mist);
+  color: var(--ink);
   font-size: 1.45rem;
+  transition:
+    background-color var(--base) var(--ease),
+    color var(--base) var(--ease);
 }
+
+.category-card:hover .category-card-icon {
+  background: var(--ink);
+  color: #fff;
+}
+
 @media (max-width: 639px) {
   .category-card {
     padding: 1rem 0.65rem;
   }
+
   .category-card-icon {
     height: 2.5rem;
     width: 2.5rem;
     font-size: 1.3rem;
   }
 }
+
+.product-card {
+  display: block;
+}
+
+.product-media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--sunken);
+  box-shadow: inset 0 0 0 1px rgba(21, 28, 39, 0.05);
+}
+
+.product-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--slow) var(--ease);
+}
+
+.product-card:hover .product-media img {
+  transform: scale(1.05);
+}
+
+/* --------------------------------------------------------------------------
+   Controls
+   -------------------------------------------------------------------------- */
+
 .button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  border-radius: 0.5rem;
-  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius-sm);
+  padding: 0.8rem 1.35rem;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  line-height: 1;
+  white-space: nowrap;
   transition:
-    background-color 0.18s,
-    border-color 0.18s,
-    opacity 0.18s;
+    background-color var(--fast) var(--ease),
+    border-color var(--fast) var(--ease),
+    box-shadow var(--fast) var(--ease),
+    transform var(--fast) var(--ease),
+    opacity var(--fast) var(--ease);
 }
+
 .button:focus {
   outline: 2px solid #18181b;
   outline-offset: 2px;
 }
+
+.button:active {
+  transform: translateY(1px);
+}
+
 .button:disabled {
   cursor: not-allowed;
   opacity: 0.5;
+  transform: none;
+  box-shadow: none;
 }
+
 .button-primary {
-  background: #000;
+  background: var(--ink);
   color: #fff;
+  box-shadow: var(--shadow-soft);
 }
+
 .button-primary:hover {
-  background: #27272a;
+  background: #232c3b;
+  box-shadow: var(--shadow-lift);
 }
+
 .button-secondary {
-  border: 1px solid #d4d4d8;
-  background: #fff;
-  color: #18181b;
+  border: 1px solid var(--line-strong);
+  background: var(--surface);
+  color: var(--ink);
 }
+
 .button-secondary:hover {
-  border-color: #18181b;
-  background: #fafafa;
+  border-color: var(--ink);
+  background: var(--paper);
 }
+
 .input {
   width: 100%;
-  border: 1px solid #d4d4d8;
-  border-radius: 0.5rem;
-  background: #fff;
-  padding: 0.75rem 0.875rem;
-  color: #18181b;
-  font-size: 0.875rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  padding: 0.8rem 0.9rem;
+  color: var(--ink);
+  font-size: 0.9375rem; /* 15px keeps iOS from zooming on focus */
+  line-height: 1.4;
+  transition:
+    border-color var(--fast) var(--ease),
+    box-shadow var(--fast) var(--ease);
 }
+
 .input:focus {
-  outline: 2px solid #18181b;
-  outline-offset: -1px;
-  border-color: #18181b;
+  outline: none;
+  border-color: var(--ink);
+  box-shadow: 0 0 0 3px rgba(21, 28, 39, 0.12);
 }
+
 .input::placeholder {
-  color: #a1a1aa;
+  color: var(--ink-400);
 }
+
 .label {
   display: block;
   margin-bottom: 0.5rem;
-  color: #52525b;
+  color: var(--ink-600);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
+
 .badge {
   display: inline-flex;
-  border-radius: 0.25rem;
-  padding: 0.25rem 0.5rem;
+  align-items: center;
+  gap: 0.25rem;
+  border-radius: 999px;
+  padding: 0.3rem 0.6rem;
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.08em;
+  line-height: 1;
   text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
 }
+
 .review-rating {
   display: inline-flex;
   flex-direction: row-reverse;
   gap: 0.15rem;
 }
+
 .review-rating input {
   position: absolute;
   opacity: 0;
   pointer-events: none;
 }
+
 .review-rating label {
   cursor: pointer;
-  color: #d4d4d8;
+  color: var(--ink-300);
   font-size: 2rem;
   line-height: 1;
   transition:
-    color 0.15s,
-    transform 0.15s;
+    color var(--fast) var(--ease),
+    transform var(--fast) var(--ease);
 }
+
 .review-rating label::before {
   content: "★";
 }
+
 .review-rating label:hover,
 .review-rating label:hover ~ label,
 .review-rating input:checked ~ label {
-  color: #d97706;
+  color: var(--star);
 }
+
 .review-rating label:hover {
-  transform: scale(1.08);
+  transform: scale(1.12);
 }
+
 .review-rating input:focus-visible + label {
   outline: 2px solid #18181b;
   outline-offset: 3px;
   border-radius: 0.2rem;
 }
-.product-card {
-  display: block;
-}
-.product-media {
-  position: relative;
-  aspect-ratio: 4 / 3;
-  overflow: hidden;
-  border-radius: 0.75rem;
-  background: #f4f4f5;
-}
-.product-media img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s;
-}
-.product-card:hover .product-media img {
-  transform: scale(1.04);
-}
+
+/* --------------------------------------------------------------------------
+   Footer & admin
+   -------------------------------------------------------------------------- */
+
 .footer-heading {
   margin-bottom: 1rem;
-  color: #18181b;
+  color: var(--ink);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
+
 .footer-links {
   display: flex;
   flex-direction: column;
   gap: 0.625rem;
-  color: #52525b;
+  color: var(--ink-600);
   font-size: 0.875rem;
 }
+
 .footer-links a {
-  transition: color 0.18s;
+  width: fit-content;
+  transition:
+    color var(--fast) var(--ease),
+    transform var(--fast) var(--ease);
 }
+
 .footer-links a:hover {
-  color: #09090b;
+  color: var(--ink);
+  transform: translateX(2px);
 }
+
 .admin-nav {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  border-radius: 0.5rem;
+  border-radius: var(--radius-sm);
   padding: 0.625rem 0.75rem;
-  color: #52525b;
+  color: var(--ink-600);
   font-size: 0.875rem;
   transition:
-    color 0.18s,
-    background-color 0.18s;
+    color var(--fast) var(--ease),
+    background-color var(--fast) var(--ease);
 }
+
 .admin-nav:hover {
-  background: #f4f4f5;
-  color: #000;
+  background: var(--mist);
+  color: var(--ink);
 }
+
 .admin-nav-active {
-  background: #f4f4f5;
-  color: #000;
+  background: var(--mist);
+  color: var(--ink);
   font-weight: 600;
+  box-shadow: inset 2px 0 0 var(--ink);
 }
+
 .material-symbols-outlined {
   font-variation-settings:
     "FILL" 0,
     "wght" 300,
     "GRAD" 0,
     "opsz" 24;
+  line-height: 1;
+  user-select: none;
 }
+
 .prose-lensify p {
   margin-bottom: 1rem;
   line-height: 1.75;
-  color: #52525b;
+  color: var(--ink-600);
 }
+
 .prose-lensify h2 {
   margin: 2rem 0 0.75rem;
   font-size: 1.25rem;
   font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+/* --------------------------------------------------------------------------
+   Small-screen refinements — comfortable thumbs, no horizontal overflow
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 400px) {
+  .icon-button {
+    height: 2.375rem;
+    width: 2.375rem;
+  }
+
+  .icon-button .material-symbols-outlined {
+    font-size: 20px;
+  }
+
+  .profile-nav-button {
+    height: 2.375rem;
+    min-width: 2.375rem;
+  }
+
+  .profile-nav-button > span:first-child:not(.material-symbols-outlined),
+  .profile-nav-button > img,
+  .profile-nav-button > .material-symbols-outlined {
+    height: 2rem;
+    width: 2rem;
+  }
+
+  .button {
+    padding: 0.75rem 1.1rem;
+  }
+}
+
+@media (hover: none) {
+  .category-card:hover,
+  .mobile-nav-link:active {
+    transform: none;
+  }
+
+  .product-card:hover .product-media img {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

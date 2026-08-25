@@ -24,16 +24,21 @@ $options = ['shape' => ['Rectangular', 'Round', 'Aviator', 'Cat Eye', 'Square'],
             <p class="mt-2 text-sm text-zinc-600">Showing <?= count($catalogue) ?>
                 <?= count($catalogue) === 1 ? 'result' : 'results' ?></p>
         </div>
-        <form class="flex flex-wrap items-center gap-2" method="get"><input class="input w-52 py-2.5" name="q"
-                value="<?= h($_GET['q'] ?? '') ?>" placeholder="Search frames"><select class="input w-40 py-2.5"
-                name="sort">
+        <form class="flex flex-wrap items-center gap-2" method="get">
+            <?php foreach (['category', 'shape', 'material', 'gender', 'q'] as $preservedFilter): ?>
+                <?php if (!empty($_GET[$preservedFilter])): ?><input type="hidden" name="<?= h($preservedFilter) ?>"
+                        value="<?= h($_GET[$preservedFilter]) ?>"><?php endif; ?>
+            <?php endforeach; ?>
+            <label class="sr-only" for="catalogue-sort">Sort frames</label>
+            <select class="input w-40 py-2.5" id="catalogue-sort" name="sort">
                 <option value="">Featured</option>
                 <option value="newest" <?= ($_GET['sort'] ?? '') === 'newest' ? 'selected' : '' ?>>Newest</option>
                 <option value="price_asc" <?= ($_GET['sort'] ?? '') === 'price_asc' ? 'selected' : '' ?>>Price: low to
                     high</option>
                 <option value="price_desc" <?= ($_GET['sort'] ?? '') === 'price_desc' ? 'selected' : '' ?>>Price: high
                     to low</option>
-            </select><button class="button button-primary px-4 py-2.5" type="submit">Apply</button></form>
+            </select><button class="button button-primary px-4 py-2.5" type="submit">Sort</button>
+        </form>
     </div>
     <div class="mt-10 grid gap-10 lg:grid-cols-[220px_1fr]">
         <aside>
@@ -44,11 +49,16 @@ $options = ['shape' => ['Rectangular', 'Round', 'Aviator', 'Cat Eye', 'Square'],
                         href="<?= h(url('shop.php')) ?>">Clear all</a>
                 </div>
                 <div><label class="label">Category</label>
-                    <div class="space-y-3"><?php foreach (array_keys(categories()) as $category): ?><label
-                                class="flex cursor-pointer items-center gap-2 text-sm"><input
-                                    class="rounded border-zinc-300 text-black focus:ring-black" type="radio" name="category"
-                                    value="<?= h($category) ?>"
-                                    <?= ($filters['category'] ?? '') === $category ? 'checked' : '' ?>><span><?= h($category) ?></span></label><?php endforeach; ?>
+                    <div class="space-y-3">
+                        <?php foreach (array_keys(categories()) as $category): ?>
+                            <?php $categoryId = 'filter-category-' . slugify($category); ?>
+                            <div class="flex items-center gap-2 text-sm">
+                                <input class="rounded border-zinc-300 text-black focus:ring-black" type="radio"
+                                    id="<?= h($categoryId) ?>" name="category" value="<?= h($category) ?>"
+                                    <?= ($filters['category'] ?? '') === $category ? 'checked' : '' ?>>
+                                <label class="cursor-pointer" for="<?= h($categoryId) ?>"><?= h($category) ?></label>
+                            </div>
+                        <?php endforeach; ?>
                     </div>
                 </div><?php foreach ($options as $name => $values): ?><div><label class="label"><?= h($name) ?></label>
                         <div class="space-y-3"><?php foreach ($values as $value): ?><label
