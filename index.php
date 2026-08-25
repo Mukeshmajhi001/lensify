@@ -10,7 +10,9 @@ require APP_ROOT . '/includes/header.php';
 <section
     class="mx-auto grid max-w-[1440px] items-center gap-10 px-5 py-10 sm:py-14 lg:grid-cols-2 lg:gap-16 lg:px-10 lg:py-16">
     <div>
-        <span class="badge bg-zinc-100 text-zinc-700">Summer collection — now live</span>
+        <span class="badge bg-zinc-100 text-zinc-700">
+            Summer collection — now live
+        </span>
         <h1 class="mt-6 max-w-xl text-5xl font-extrabold leading-[1.05] tracking-[-.065em] sm:text-6xl lg:text-7xl">
             Frames that <em class="font-light">define</em> you.</h1>
         <p class="mt-6 max-w-lg text-base leading-7 text-zinc-600">Engineered precision meets timeless design. Discover
@@ -21,13 +23,13 @@ require APP_ROOT . '/includes/header.php';
                 lenses</a></div>
         <div class="mt-10 grid max-w-lg grid-cols-3 border-t border-zinc-200 pt-6">
             <div class="border-r border-zinc-200"><strong class="block text-xl tracking-[-.04em]">4.9<span
-                        class="text-amber-600">★</span></strong><span class="text-[10px] text-zinc-500">App
+                        class="text-amber-600">★</span></strong><span class="text-[12px] text-zinc-500">App
                     rating</span></div>
             <div class="border-r border-zinc-200 pl-5"><strong
-                    class="block text-xl tracking-[-.04em]">1.2M+</strong><span class="text-[10px] text-zinc-500">Happy
+                    class="block text-xl tracking-[-.04em]">1.2M+</strong><span class="text-[12px] text-zinc-500">Happy
                     customers</span></div>
             <div class="pl-5"><strong class="block text-xl tracking-[-.04em]">30</strong><span
-                    class="text-[10px] text-zinc-500">Day free returns</span></div>
+                    class="text-[12px] text-zinc-500">Day free returns</span></div>
         </div>
     </div>
     <div class="relative mx-auto w-full max-w-xl lg:max-w-none">
@@ -45,28 +47,29 @@ require APP_ROOT . '/includes/header.php';
 </section>
 
 <?php if ($campaigns): ?>
-    <section class="mx-auto max-w-[1440px] px-5 pb-5 lg:px-10">
-        <div class="grid gap-5 <?= count($campaigns) > 1 ? 'lg:grid-cols-2' : '' ?>">
-            <?php foreach (array_slice($campaigns, 0, 2) as $campaign): ?><?php $campaignUrl = trim((string) ($campaign['button_url'] ?? ''));
-                                                                            $campaignHref = preg_match('#^https?://#i', $campaignUrl) ? $campaignUrl : url($campaignUrl ?: 'shop.php');
-                                                                            $campaignImage = trim((string) ($campaign['image_url'] ?? ''));
-                                                                            if ($campaignImage !== '' && !preg_match('#^https?://#i', $campaignImage)) {
-                                                                                $campaignImage = url($campaignImage);
-                                                                            } ?>
-            <article class="relative min-h-72 overflow-hidden rounded-2xl bg-zinc-900 px-6 py-12 text-white sm:px-10">
-                <div class="absolute inset-0 opacity-40"><?php if ($campaignImage): ?><img
-                            class="h-full w-full object-cover" src="<?= h($campaignImage) ?>" alt=""><?php endif; ?></div>
-                <div class="relative max-w-md">
-                    <p class="text-[11px] font-bold uppercase tracking-[.16em] text-white/75">Lensify campaign</p>
-                    <h2 class="mt-3 text-3xl font-bold tracking-[-.05em]"><?= h($campaign['title']) ?></h2>
-                    <?php if ($campaign['subtitle']): ?><p class="mt-3 text-sm leading-6 text-white/85">
-                            <?= h($campaign['subtitle']) ?></p><?php endif; ?><a
-                        class="button mt-6 bg-white text-black hover:bg-zinc-200"
-                        href="<?= h($campaignHref) ?>"><?= h($campaign['button_label'] ?: 'Explore collection') ?></a>
-                </div>
-            </article><?php endforeach; ?>
-        </div>
-    </section>
+<section class="mx-auto max-w-[1440px] px-5 pb-5 lg:px-10">
+    <div class="grid gap-5 <?= count($campaigns) > 1 ? 'lg:grid-cols-2' : '' ?>">
+        <?php foreach (array_slice($campaigns, 0, 2) as $campaign): ?> <?php $campaignUrl = trim((string) ($campaign['button_url'] ?? ''));
+                           $campaignHref = preg_match('#^https?://#i', $campaignUrl) ? $campaignUrl : url($campaignUrl ?: 'shop.php');
+                           $campaignImage = trim((string) ($campaign['image_url'] ?? ''));
+                           if ($campaignImage !== '' && !preg_match('#^https?://#i', $campaignImage)) {
+                               $campaignImage = url($campaignImage);
+                           } ?>
+        <article class="relative min-h-72 overflow-hidden rounded-2xl bg-zinc-900 px-6 py-12 text-white sm:px-10">
+            <div class="absolute inset-0 opacity-40"><?php if ($campaignImage): ?><img
+                    class="h-full w-full object-cover" src="<?= h($campaignImage) ?>" alt=""><?php endif; ?></div>
+            <div class="relative max-w-md">
+                <p class="text-[11px] font-bold uppercase tracking-[.16em] text-white/75">Lensify campaign</p>
+                <h2 class="mt-3 text-3xl font-bold tracking-[-.05em]"><?= h($campaign['title']) ?></h2>
+                <?php if ($campaign['subtitle']): ?>
+                <p class="mt-3 text-sm leading-6 text-white/85">
+                    <?= h($campaign['subtitle']) ?>
+                </p><?php endif; ?><a class="button mt-6 bg-white text-black hover:bg-zinc-200"
+                    href="<?= h($campaignHref) ?>"><?= h($campaign['button_label'] ?: 'Explore collection') ?></a>
+            </div>
+        </article><?php endforeach; ?>
+    </div>
+</section>
 <?php endif; ?>
 
 <?php $categoryIcons = ['Eyeglasses' => 'visibility', 'Sunglasses' => 'wb_sunny', 'Reading Glasses' => 'menu_book', 'Computer Glasses' => 'computer']; ?>
@@ -79,12 +82,25 @@ require APP_ROOT . '/includes/header.php';
             </div><a class="text-xs font-bold underline underline-offset-4" href="<?= h(url('shop.php')) ?>">View
                 all</a>
         </div>
+        <?php
+        $categories = categories();
+        array_pop($categories);
+        ?>
+
         <div class="grid grid-cols-2 gap-3 md:grid-cols-4 lg:gap-6">
-            <?php foreach (categories() as $name => $category): ?><?php $icon = $categoryIcons[$name] ?? ($category['icon'] ?: 'visibility'); ?><a
-                class="category-card" href="<?= h(url('shop.php?category=' . rawurlencode($name))) ?>"><span
-                    class="category-card-icon material-symbols-outlined"><?= h($icon) ?></span><strong
-                    class="mt-3 block text-sm"><?= h($name) ?></strong><span
-                    class="mt-1 block text-[11px] text-zinc-500"><?= h($category['description']) ?></span></a><?php endforeach; ?>
+            <?php foreach ($categories as $name => $category): ?>
+            <?php $icon = $categoryIcons[$name] ?? ($category['icon'] ?: 'visibility'); ?>
+
+            <a class="category-card" href="<?= h(url('shop.php?category=' . rawurlencode($name))) ?>">
+                <span class="category-card-icon material-symbols-outlined"><?= h($icon) ?></span>
+
+                <strong class="mt-3 block text-sm"><?= h($name) ?></strong>
+
+                <span class="mt-1 block text-[11px] text-zinc-500">
+                    <?= h($category['description']) ?>
+                </span>
+            </a>
+            <?php endforeach; ?>
         </div>
     </div>
 </section>
@@ -95,8 +111,8 @@ require APP_ROOT . '/includes/header.php';
         <p class="mt-1 text-sm text-zinc-500">Our most-loved frames, chosen by millions across the globe.</p>
     </div>
     <div class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-4 lg:gap-6">
-        <?php foreach ($featured as $product): ?><?php $returnTo = 'index.php';
-                                                    require APP_ROOT . '/includes/product-card.php'; ?><?php endforeach; ?>
+        <?php foreach ($featured as $product): ?> <?php $returnTo = 'index.php';
+                 require APP_ROOT . '/includes/product-card.php'; ?><?php endforeach; ?>
     </div>
 </section>
 
@@ -124,31 +140,31 @@ require APP_ROOT . '/includes/header.php';
             href="<?= h(url('shop.php?sort=newest')) ?>">View collection</a>
     </div>
     <div class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-4 lg:gap-6">
-        <?php foreach ($newArrivals as $product): ?><?php $returnTo = 'index.php';
-                                                    require APP_ROOT . '/includes/product-card.php'; ?><?php endforeach; ?>
+        <?php foreach ($newArrivals as $product): ?> <?php $returnTo = 'index.php';
+                 require APP_ROOT . '/includes/product-card.php'; ?><?php endforeach; ?>
     </div>
 </section>
 
 <section class="border-y border-zinc-200 bg-white">
     <div class="mx-auto grid max-w-[1440px] gap-6 px-5 py-8 sm:grid-cols-2 lg:grid-cols-4 lg:px-10">
         <div class="flex gap-3"><span class="material-symbols-outlined text-green-700">local_shipping</span>
-            <div><strong class="text-xs">Free shipping</strong>
-                <p class="mt-1 text-[11px] text-zinc-500">On all orders above ₹2,000.</p>
+            <div><strong class="text-base">Free shipping</strong>
+                <p class="mt-1 text-[13px] text-zinc-500">On all orders above ₹2,000.</p>
             </div>
         </div>
         <div class="flex gap-3"><span class="material-symbols-outlined text-green-700">replay</span>
-            <div><strong class="text-xs">30-day returns</strong>
-                <p class="mt-1 text-[11px] text-zinc-500">Hassle-free returns, no questions.</p>
+            <div><strong class="text-base">30-day returns</strong>
+                <p class="mt-1 text-[13px] text-zinc-500">Hassle-free returns, no questions.</p>
             </div>
         </div>
         <div class="flex gap-3"><span class="material-symbols-outlined text-green-700">verified_user</span>
-            <div><strong class="text-xs">2-year warranty</strong>
-                <p class="mt-1 text-[11px] text-zinc-500">Included with every frame.</p>
+            <div><strong class="text-base">2-year warranty</strong>
+                <p class="mt-1 text-[13px] text-zinc-500">Included with every frame.</p>
             </div>
         </div>
         <div class="flex gap-3"><span class="material-symbols-outlined text-green-700">home</span>
-            <div><strong class="text-xs">Try at home</strong>
-                <p class="mt-1 text-[11px] text-zinc-500">Pick five frames, try in comfort.</p>
+            <div><strong class="text-base">Try at home</strong>
+                <p class="mt-1 text-[13px] text-zinc-500">Pick five frames, try in comfort.</p>
             </div>
         </div>
     </div>
