@@ -1,3 +1,16 @@
+const pageLoader = document.querySelector("[data-page-loader]");
+const hidePageLoader = () => {
+  if (!pageLoader || pageLoader.classList.contains("is-hidden")) return;
+  pageLoader.classList.add("is-hidden");
+  window.setTimeout(() => pageLoader.remove(), 500);
+};
+
+if (document.readyState === "complete") {
+  hidePageLoader();
+} else {
+  window.addEventListener("load", hidePageLoader, { once: true });
+}
+
 document.querySelectorAll("[data-flash]").forEach((flash) => {
   window.setTimeout(() => {
     flash.style.transition = "opacity 250ms ease, transform 250ms ease";
