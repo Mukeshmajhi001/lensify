@@ -57,6 +57,7 @@ $unreadNotifications = $viewer ? unread_notification_count((int) $viewer['id']) 
 </head>
 
 <body class="min-h-screen bg-paper font-sans text-ink antialiased">
+    <?php require APP_ROOT . '/includes/loader.php'; ?>
     <div
         class="bg-ink px-4 py-2.5 text-center font-mono text-[10px] uppercase leading-none tracking-[.16em] text-white/90 sm:text-[11px] sm:tracking-[.2em]">
         Free shipping on orders above ₹2,000</div>

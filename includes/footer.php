@@ -32,8 +32,9 @@
         </div>
     </div>
     <div
-        class="mx-auto flex max-w-shell flex-col gap-2 border-t border-ink/10 px-4 py-6 font-mono text-[10px] uppercase leading-loose tracking-[.1em] text-zinc-500 sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:px-6 sm:text-[11px] sm:tracking-[.12em] lg:px-8 xl:px-10">
-        <span>© <?= date('Y') ?> Lensify. All rights reserved.</span><span>Designed with precision in Nepal.</span>
+        class="mx-auto flex max-w-shell flex-col gap-2 border-t border-ink/10 px-4 py-6 font-mono text-[13px] leading-loose text-zinc-500 sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:px-6 sm:text-[13px] lg:px-8 xl:px-10">
+        <span>&#64;<?= date('Y') ?> Lensify. All rights reserved.</span>
+        <span>Designed with precision in Nepal.</span>
     </div>
 </footer>
 <script src="<?= h(url('assets/js/app.js')) ?>"></script>

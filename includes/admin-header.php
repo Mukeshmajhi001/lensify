@@ -70,6 +70,7 @@ $adminSections = [
 </head>
 
 <body class="min-h-screen bg-canvas font-sans text-zinc-900">
+    <?php require APP_ROOT . '/includes/loader.php'; ?>
     <div class="flex min-h-screen">
         <aside
             class="sticky top-0 hidden h-screen w-[276px] shrink-0 flex-col border-r border-zinc-200 bg-white p-5 lg:flex">
