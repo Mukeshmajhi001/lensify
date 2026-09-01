@@ -24,6 +24,7 @@ $adminSections = [
         'variants' => ['Variants', 'tune', 'admin/variants.php'],
         'inventory' => ['Stock history', 'history', 'admin/inventory.php'],
         'banners' => ['Banners', 'view_carousel', 'admin/banners.php'],
+        'error-page' => ['404 Page image', 'broken_image', 'admin/404.php'],
     ],
     'Growth' => [
         'coupons' => ['Coupons', 'local_offer', 'admin/coupons.php'],
