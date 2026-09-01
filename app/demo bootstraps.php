@@ -174,8 +174,8 @@ function require_login(): void
 function require_admin(): void
 {
     if (!is_admin()) {
-        flash('error', 'Admin access is required.');
-        redirect('admin/login.php');
+        flash('error', 'Please sign in with an administrator account to continue.');
+        redirect('login.php');
     }
 }
 
