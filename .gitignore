@@ -8,3 +8,4 @@ storage/
 *.log
 vendor/
 node_modules/
+app/bootstrap.php
